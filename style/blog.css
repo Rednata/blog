@@ -1,0 +1,142 @@
+.blog {
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 50px;
+  column-gap: 143px; */
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 50px;
+  justify-content: space-between;
+  margin-bottom: 100px;
+}
+
+.blog-item {
+  display: flex;
+  gap: 30px;
+  width: 45%;  
+}
+
+.blog-item__image {
+  border-radius: 20px;
+  display: block;
+}
+
+.blog-item__content {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  color: var(--add-color);
+  font-size: 16px;
+  padding-right: 10px;
+}
+
+.blog-item__title {
+  font-size: 32px;    
+  color: var(--main-color);
+  margin-bottom: 13px;
+  padding-top: 13px;  
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.blog-item__date {
+  margin-bottom: 39px;
+}
+
+.blog-item__info {
+  margin-bottom: 0;
+  margin-top: auto;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+}
+
+.arrow {
+  width: 37px;
+  height: 37px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;  
+}
+
+.arrow_left {
+  background-image: url("../assets/img/arrow.svg");
+}
+
+.arrow_right {
+  background-image: url("../assets/img/arrow.svg");
+  transform: rotate(180deg);
+}
+.buttons-group {
+  display: flex;
+  gap: 6px;
+}
+
+.button {
+  width: 36px;
+  height: 36px;
+}
+
+@media(max-width: 1600px) {
+  .container {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media(max-width: 1400px) {
+  .blog {
+    column-gap: 10px;
+  }
+  .blog-item {
+    width: 48%;
+  }
+}
+
+@media(max-width: 1250px) {
+  .blog-item {
+    width: 100%;
+  }
+  .blog-item__content {  
+    width: 80%;
+  }
+}
+
+@media(max-width: 1000px) {
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 50px;
+  }
+}
+
+@media(max-width: 700px) {
+  .blog-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .blog-item__image {
+    height: 200px;
+    width: 200px;
+  }
+  .blog-item__content {
+    width: 100%;
+  }
+  .blog-item__title {
+    font-size: 26px;
+  }
+}
+
+
+/* .text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+} */

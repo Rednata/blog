@@ -1,0 +1,36 @@
+.info {
+  display: flex;
+  gap: 25px;
+  color: var(--add-color);
+}
+
+.info__view, 
+.info__comments {
+  display: flex;
+  align-items: center;
+}
+
+.info__view {
+  gap: 4px;
+}
+
+.info__comments {
+  gap: 9px;
+}
+
+.info__img {
+  display: block;
+  width: 24px;
+  height: 24px;  
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.info__img_view {
+  background-image: url("../assets/img/view.svg");
+}
+
+.info__img_comments {
+  background-image: url("../assets/img/chat.svg");
+}
