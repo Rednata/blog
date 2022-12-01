@@ -31,6 +31,7 @@
 
 .nav {
   display: flex;  
+  align-items: flex-start;
 }
 
 .nav__li {
@@ -136,9 +137,6 @@
   }
   .header {
     margin-bottom: 50px;
-  }
-  .nav {
-    align-items: flex-start;
   }
   .aside {
     flex-direction: row;
