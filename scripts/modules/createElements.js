@@ -1,5 +1,11 @@
 import { loadAuthor } from './fetchLoad.js';
 
+const createSection = () => {
+  const section = document.createElement('section');  
+  section.classList.add('section', 'container');
+  return section;  
+} 
+
 const createUl = () => {  
   const ul = document.createElement('ul');
   ul.classList.add('blog');
@@ -37,18 +43,54 @@ const createElementsBlog = ({ title, body, id }) => {
   return blogItem
 }
 
-const createBlog = (posts) => {
+const createPaginationGroup = () => {
+  const paginationWrap = document.createElement('div');
+  paginationWrap.classList.add('pagination');
+  paginationWrap.insertAdjacentHTML('afterbegin', 
+  `    
+    <a class="arrow arrow_left"></a>
+    <div class="pagination-group">
+    </div>
+    <a class="arrow arrow_right"></a>    
+  `)
+  return paginationWrap;
+};
+
+const createBlog = (posts, pageStart) => {
+  const section = createSection();
   const ul = createUl();
   const data = posts.map(elem => createElementsBlog(elem));
   ul.append(...data);  
-  const section = document.querySelector('section');  
-  section.prepend(ul);  
+  section.append(ul);
 
-  // =============  ИЛИ ==================
+  const paginationGroup = createPaginationGroup();
+
+    // =============  ИЛИ ==================
   // posts.forEach(element => {
   //   ul.append(createElementsBlog(element));    
-  // });
+  // }); 
+  section.append(paginationGroup);
+  document.body.append(section);   
+  createPageNumbers(pageStart);
 }
+
+const createPageNumbers = (start) => {
+  const paginationGroup = document.querySelector('.pagination-group');
+  paginationGroup.innerHTML = '';
+  
+  const pages = [];
+  for (let i = start; i < start + 3; i++) {    
+    const a = document.createElement('a');
+    a.classList.add('pagination__page');
+    a.setAttribute('data-number', `${i}`);
+    a.href = '#';
+    a.textContent = i;
+    pages.push(a);
+  };
+  
+  document.querySelector('.pagination-group').append(...pages);
+}
+
 
 //  ============== ARTICLE =======================
 
@@ -131,4 +173,4 @@ const createElementsArticle = (articleData) => {
   bodyArticle.append(header, main);
 }
 
-export {createBlog, createElementsBlog, createElementsArticle, createFooter};
+export {createBlog, createElementsBlog, createElementsArticle, createFooter, createPageNumbers};

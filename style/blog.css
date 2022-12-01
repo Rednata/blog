@@ -59,29 +59,49 @@
 .arrow {
   width: 37px;
   height: 37px;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  border: none;  
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;  
+  background-color: var(--add-color);  
+  mask-image: url("data:image/svg+xml,%3Csvg width='29' height='19' viewBox='0 0 29 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28.375 7.95833H6.52958L12.0487 2.42375L9.875 0.25L0.625 9.5L9.875 18.75L12.0487 16.5763L6.52958 11.0417H28.375V7.95833Z' fill='%238F8F8F'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='29' height='19' viewBox='0 0 29 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28.375 7.95833H6.52958L12.0487 2.42375L9.875 0.25L0.625 9.5L9.875 18.75L12.0487 16.5763L6.52958 11.0417H28.375V7.95833Z' fill='%238F8F8F'/%3E%3C/svg%3E");
+  transition: background-color 0.1s ease
 }
 
-.arrow_left {
-  background-image: url("../assets/img/arrow.svg");
+.arrow:active,
+.arrow:hover {
+  background-color: var(--active-color);
 }
 
-.arrow_right {
-  background-image: url("../assets/img/arrow.svg");
+.arrow_right {  
   transform: rotate(180deg);
 }
-.buttons-group {
+.pagination-group {
   display: flex;
   gap: 6px;
+  width: 120px;
+  overflow: hidden;
 }
 
-.button {
+.pagination__page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
+  border: 2px solid var(--main-color);
+  border-radius: 6px;    
+  flex-shrink: 0;
+}
+
+.pagination__page:hover,
+.pagination__page:active {
+  color: var(--active-color);
+  border: 2px solid var(--active-color);
+  transition: color 0.1s ease, border 0.1s ease;
 }
 
 @media(max-width: 1600px) {
@@ -133,10 +153,3 @@
     font-size: 26px;
   }
 }
-
-
-/* .text-truncate {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-} */

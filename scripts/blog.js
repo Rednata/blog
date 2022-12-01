@@ -1,8 +1,10 @@
-import { createBlog } from './modules/createElements.js';
 import { loadPosts } from './modules/fetchLoad.js';
 
-const init = () => {
-  loadPosts();    
+const init = () => {  
+  let pageStart = 1;
+  loadPosts(pageStart);    
+
+
 }
 
 init();

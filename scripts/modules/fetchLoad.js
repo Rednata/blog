@@ -1,9 +1,35 @@
-import { createBlog, createElementsArticle, createFooter } from './createElements.js';
+import { createBlog, createElementsArticle, createFooter, createPageNumbers } from './createElements.js';
 
-const loadPosts = async () => {  
-  const response = await fetch ('https://gorest.co.in/public-api/posts');
-  const posts = (await response.json()).data;    
-  createBlog(posts);  
+const loadPosts = async (pageStart) => {  
+  const response = await fetch ('https://gorest.co.in/public-api/posts');  
+  const posts = await response.json();      
+  
+  createBlog(posts.data, pageStart);
+  
+  const pagination = document.querySelector('.pagination');
+  
+  pagination.addEventListener('click', ({ target }) => {
+    const pages = document.querySelectorAll('.pagination__page');
+    let start = pages[0].dataset.number;
+    if (target.classList.contains('arrow_right')) {                    
+      createPageNumbers(Number(++start));
+    } else if (target.classList.contains('arrow_left')) {    
+      if (+start === 1) {
+        createPageNumbers(1);
+      } else {
+      
+        createPageNumbers(Number(start) - 1);
+      }
+    
+    
+    }
+
+    
+})
+
+
+
+
 }
 
 const getURLSearch = () => {
