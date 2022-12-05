@@ -97,11 +97,16 @@
   flex-shrink: 0;
 }
 
+.active {
+  color: var(--active-color);
+  border: 2px solid var(--active-color);  
+}
+
 .pagination__page:hover,
 .pagination__page:active {
   color: var(--active-color);
   border: 2px solid var(--active-color);
-  transition: color 0.1s ease, border 0.1s ease;
+  /* transition: color 0.1s ease, border 0.1s ease; */
 }
 
 @media(max-width: 1600px) {

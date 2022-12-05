@@ -1,100 +1,103 @@
-import { loadAuthor } from './fetchLoad.js';
+import { loadAuthor } from './fetch.js';
 
 const createSection = () => {
-  const section = document.createElement('section');  
+  const section = document.createElement('section');
   section.classList.add('section', 'container');
-  return section;  
-} 
+
+  return section;
+}
 
 const createUl = () => {  
   const ul = document.createElement('ul');
-  ul.classList.add('blog');
+  ul.classList.add('blog');  
+
   return ul;
 };
 
-const createElementsBlog = ({ title, body, id }) => {      
-  const blogItem = document.createElement('li');
-  blogItem.classList.add('blog-item');
+const createPost = ({title, id}) => {     
+    const post = document.createElement('li');
+    post.classList.add('blog-item');
 
-  const linkHref = `./article.html?id=${id}`;
-  blogItem.insertAdjacentHTML('afterbegin', 
-  `  
-    <a class="blog-item__link" href=${linkHref}>
-      <img class="blog-item__image" src="./assets/img/Rectangle.jpg" alt="">
-    </a> 
-    <div class="blog-item__content">
-      <a class="blog-item__link" href=${linkHref}>
-        <h2 class="blog-item__title">${title}</h2>
-      </a>
-      <p class="blog-item__date">22 октября 2021, 12:45</p>
-      <div class="blog-item__info info">
-        <div class="info__view">
-          <span class="info__img info__img_view"></span>
-          <p class="view__count">1.2K</p>              
+    const linkPost = `article.html?id=${id}`;
+    post.insertAdjacentHTML('afterbegin', 
+    `
+      <a class="blog-item__link" href=${linkPost} target="_blank">
+        <img class="blog-item__image" src="./assets/img/Rectangle.jpg" alt="">
+      </a> 
+      <div class="blog-item__content">
+        <a class="blog-item__link" href=${linkPost} target="_blank">
+          <h2 class="blog-item__title">${title}</h2>
+        </a>
+        <p class="blog-item__date">22 октября 2021, 12:45</p>
+        <div class="blog-item__info info">
+          <div class="info__view">
+            <span class="info__img info__img_view"></span>
+            <p class="view__count">1.2K</p>              
+          </div>
+          <div class="info__comments">
+            <span class="info__img info__img_comments"></span>
+            <p class="comments__count">0</p>              
+          </div>
         </div>
-        <div class="info__comments">
-          <span class="info__img info__img_comments"></span>
-          <p class="comments__count">0</p>              
-        </div>
-      </div>
-    </div>  
-  `);
-  
-  return blogItem
-}
+      </div>  
+    `);   
+    return post;
+  };
 
-const createPaginationGroup = () => {
-  const paginationWrap = document.createElement('div');
-  paginationWrap.classList.add('pagination');
-  paginationWrap.insertAdjacentHTML('afterbegin', 
+const renderPost = (posts, blog) => {
+  const data = posts.map(post => createPost(post));
+  blog.append(...data);
+};
+
+const createPagination = () => {
+  const pagination = document.createElement('div');
+  pagination.classList.add('pagination');
+  pagination.insertAdjacentHTML('afterbegin', 
   `    
     <a class="arrow arrow_left"></a>
     <div class="pagination-group">
     </div>
     <a class="arrow arrow_right"></a>    
   `)
-  return paginationWrap;
+  return pagination;
 };
 
-const createBlog = (posts, pageStart) => {
-  const section = createSection();
-  const ul = createUl();
-  const data = posts.map(elem => createElementsBlog(elem));
-  ul.append(...data);  
-  section.append(ul);
+const createPaginationNumber = (pagination, startPage, currentPage) => {  
+  
+  const paginationInner = pagination.querySelector('.pagination-group'); 
+  paginationInner.innerHTML = '';
+  const pages = [];  
+  for (let i = startPage; i < startPage + 3; i++) {            
+    const link = document.createElement('a');    
+    link.className = 'pagination__page';
+    if (i === currentPage) {
+      link.classList.add('active');
+    }
+    link.setAttribute('data-number', `${i}`);
+    link.href = '';
+    link.textContent = i;
+    pages.push(link);        
+  }
+  paginationInner.append(...pages);
+};
 
-  const paginationGroup = createPaginationGroup();
-
-    // =============  ИЛИ ==================
-  // posts.forEach(element => {
-  //   ul.append(createElementsBlog(element));    
-  // }); 
-  section.append(paginationGroup);
-  document.body.append(section);   
-  createPageNumbers(pageStart);
+const createPageBlog = (posts, startPage, currentPage) => {
+  document.body.innerHTML = '';
+  const section = createSection();  
+  const blog = createUl();
+  renderPost(posts, blog);    
+  section.append(blog);
+  const pagination = createPagination();
+  createPaginationNumber(pagination, startPage, currentPage);
+  section.append(pagination);
+  document.body.append(section);
+  return pagination;
 }
 
-const createPageNumbers = (start) => {
-  const paginationGroup = document.querySelector('.pagination-group');
-  paginationGroup.innerHTML = '';
-  
-  const pages = [];
-  for (let i = start; i < start + 3; i++) {    
-    const a = document.createElement('a');
-    a.classList.add('pagination__page');
-    a.setAttribute('data-number', `${i}`);
-    a.href = '#';
-    a.textContent = i;
-    pages.push(a);
-  };
-  
-  document.querySelector('.pagination-group').append(...pages);
-}
+//  ==============  ARTICLE  ======================
 
-
-//  ============== ARTICLE =======================
-
-const bodyArticle = document.querySelector('body');
+const articleWrap = document.createElement('div');
+articleWrap.className = 'articleWrap';
 
 const createHeader = (title) => {
   const header = document.createElement('header');
@@ -106,7 +109,7 @@ const createHeader = (title) => {
         <a class="nav__main">Главная</a>
       </li>
       <li class="nav__li">
-        <a href="blog.html">Блог</a>
+        <a class="goBlog" href="">Блог</a>
       </li>
       <li class="nav__title">${title}
       </li>      
@@ -129,15 +132,26 @@ const createMain = (title, body) => {
   return main
 }
 
-const createFooter = (author) => {
+const createAside = () => {
+  const aside = document.createElement('aside');
+  aside.className = 'aside';
+  aside.insertAdjacentHTML('afterbegin', 
+  `
+    <img src="./assets/img/add.jpg" alt="" class="article__img">
+    <img src="./assets/img/add.jpg" alt="" class="article__img">
+  `);
+  return aside;
+}
+
+const createFooter = (user_id) => {
   const footer = document.createElement('footer');
   footer.classList.add('footer');
   footer.insertAdjacentHTML('afterbegin', 
   `
-    <a class="footer__back" href="blog.html">К списку статей</a>
+    <a class="footer__back" href="">К списку статей</a>
       <div class="footer__about">
       <div class="footer__author">
-        ${author}
+        ${user_id}
       </div>
       <div class="footer__date">
         22 октября 2021, 12:45          
@@ -155,7 +169,8 @@ const createFooter = (author) => {
     </div>
   `
   )
-  bodyArticle.append(footer);
+  articleWrap.append(footer);
+  return footer
 };
 
 const createElementsArticle = (articleData) => {  
@@ -164,13 +179,16 @@ const createElementsArticle = (articleData) => {
     data: {body},
     data: {user_id}
   } = articleData;  
+  document.body.innerHTML = '';
 
   const header = createHeader(title);
   const main = createMain(title, body);
+  const aside = createAside();
 
   loadAuthor(user_id);
  
-  bodyArticle.append(header, main);
+  articleWrap.append(aside, header, main );
+  document.body.append(articleWrap);
 }
 
-export {createBlog, createElementsBlog, createElementsArticle, createFooter, createPageNumbers};
+export {createPageBlog, createPaginationNumber, createElementsArticle, createFooter};

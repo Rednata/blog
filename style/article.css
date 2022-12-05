@@ -1,4 +1,4 @@
-.body-article {
+.articleWrap {
   display: grid;
   grid-template-columns: 1fr 532px;
   column-gap: 50px;
@@ -112,7 +112,7 @@
 }
 
 @media (max-width: 1300px) {
-  .body-article {    
+  .articleWrap {    
     grid-template-columns: 1fr 250px
   }
 }
@@ -125,7 +125,7 @@
 }
 
 @media (max-width: 900px) {
-  .body-article {    
+  .articleWrap {    
     padding: 70px 30px;
     grid-template-columns: 1fr;
     grid-template-areas: 
@@ -149,7 +149,7 @@
 }
 
 @media (max-width: 600px) {
-  .body-article {    
+  .articleWrap {    
     padding: 30px 15px;
   }
   .article {
