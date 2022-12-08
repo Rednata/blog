@@ -1,4 +1,5 @@
-
+import { loadAuthor } from './fetch.js';
+// ===================== BLOG ==========================
 
 const createSection = () => {
   const section = document.createElement('section');
@@ -64,7 +65,8 @@ const createPaginationWrap = () => {
   return paginationWrap;
 };
 
-const createPaginationNumber = (paginationWrap, startPage, currentPage) => {
+const createPaginationNumber = (paginationWrap, currentPage, startPage) => {
+  startPage ||= currentPage;
   const pagination = paginationWrap.querySelector('.pagination-group');
   pagination.innerHTML = '';
   const pages = [];
@@ -83,7 +85,7 @@ const createPaginationNumber = (paginationWrap, startPage, currentPage) => {
   return pagination;
 };
 
-const createPageBlog = (postList, startPage, currentPage) => {
+const createBlogPage = (postList, currentPage) => {
   console.log('postList: ', postList);
 
   const section = createSection();
@@ -93,10 +95,104 @@ const createPageBlog = (postList, startPage, currentPage) => {
   document.body.append(section);
 
   const paginationWrap = createPaginationWrap();
-  const pagination = createPaginationNumber(paginationWrap, startPage, currentPage);
+  const pagination = createPaginationNumber(paginationWrap, currentPage);
   section.append(paginationWrap);
   document.body.append(section);
   return {pagination};
 };
 
-export {createPageBlog, createPaginationNumber};
+// ============  ARTICLE ================
+const articleWrap = document.createElement('div');
+articleWrap.className = 'articleWrap';
+
+const createHeader = (title) => {
+  const header = document.createElement('header');
+  header.classList.add('header');
+  header.insertAdjacentHTML('afterbegin',
+      `
+        <ul class="nav">
+          <li class="nav__li">
+            <a class="nav__main">Главная</a>
+          </li>
+          <li class="nav__li">
+            <a class="goBlog" href="">Блог</a>
+          </li>
+          <li class="nav__title">${title}
+          </li>      
+        </ul>  
+      `);
+  return header;
+};
+
+const createMain = (title, body) => {
+  const main = document.createElement('main');
+  main.classList.add('main');
+  main.insertAdjacentHTML('afterbegin',
+      `
+        <article class="article">
+          <h1 class="title article__title">${title}</h1>
+          <p class="article__text">${body}</p>
+        </article>
+      `);
+  return main;
+};
+
+const createAside = () => {
+  const aside = document.createElement('aside');
+  aside.className = 'aside';
+  aside.insertAdjacentHTML('afterbegin',
+      `
+        <img src="./assets/img/add.jpg" alt="" class="article__img">
+        <img src="./assets/img/add.jpg" alt="" class="article__img">
+      `);
+  return aside;
+};
+
+const createFooter = (author) => {
+  console.log('author: ', author);
+  const nameAuthor = author.data.name;
+  const footer = document.createElement('footer');
+  footer.classList.add('footer');
+  footer.insertAdjacentHTML('afterbegin',
+      `
+        <a class="footer__back" href="">К списку статей</a>
+          <div class="footer__about">
+          <div class="footer__author">
+            ${nameAuthor}
+          </div>
+          <div class="footer__date">
+            22 октября 2021, 12:45          
+          </div>
+          <div class="info footer__info">
+            <div class="info__view">
+            <span class="info__img info__img_view"></span>
+            <p class="info__view_count">1.2K</p>              
+          </div>
+          <div class="info__comments">
+            <span class="info__img info__img_comments"></span>
+            <p class="info__comments_count">0</p>              
+          </div>
+          </div>
+        </div>
+      `);
+  articleWrap.append(footer);
+  return footer;
+};
+
+const createArticlePage = (articleData) => {
+  const {
+    title,
+    body,
+    user_id,
+  } = articleData;
+
+  const header = createHeader(title);
+  const main = createMain(title, body);
+  const aside = createAside();
+
+  loadAuthor(user_id);
+  articleWrap.append(aside, header, main);
+  document.body.append(articleWrap);
+};
+
+export {createBlogPage, createArticlePage, createPaginationNumber, createFooter};
