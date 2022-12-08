@@ -75,7 +75,7 @@ const createPaginationNumber = (paginationWrap, startPage, currentPage) => {
       link.classList.add('active');
     }
     link.setAttribute('data-number', `${i}`);
-    link.href = '';
+    link.href = `blog.html?page=${i}`;
     link.textContent = i;
     pages.push(link);
   }
@@ -96,7 +96,7 @@ const createPageBlog = (postList, startPage, currentPage) => {
   const pagination = createPaginationNumber(paginationWrap, startPage, currentPage);
   section.append(paginationWrap);
   document.body.append(section);
-  return {paginationWrap, pagination};
+  return {pagination};
 };
 
-export {createPageBlog};
+export {createPageBlog, createPaginationNumber};

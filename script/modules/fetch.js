@@ -1,38 +1,20 @@
 import { createPageBlog } from './createElements.js';
+import { openNewWindow, onClickArrow } from './paginationFunc.js';
 
-const loadPosts = async (startPage, currentPage) => {
+const loadPosts = async (currentPage) => {
   document.body.innerHTML = '';
-  console.log('currentPage: ', currentPage);
 
-  const response = await fetch(`https://gorest.co.in/public-api/posts?page=${currentPage}`);
+  const url = new URL(window.location);
+  const queryParams = url.search;
+  currentPage = +queryParams.slice(6) || 1;
+
+  const response = await fetch(`https://gorest.co.in/public-api/posts${queryParams}`);
   const postList = await response.json();
-  // const limitPages = postList.meta.pagination.limit;
 
-  const {paginationWrap, pagination} = createPageBlog(postList, startPage, currentPage);
-
-  const getCurrentPageNumber = (target) => target.dataset.number;
-
-  const getStartPage = (pagination) => pagination.firstElementChild.dataset.number;
-
-
-  const openNewWindow = () => {
-    pagination.addEventListener('click', (e) => {
-      e.preventDefault();
-      const currentPage = getCurrentPageNumber(e.target);
-      const startPage = getStartPage(pagination);
-      const link = `blog.html?page=${currentPage}`;
-      console.log('currentPage: ', currentPage);
-      window.open(link);
-
-      loadPosts(startPage, currentPage);
-    });
-  };
-
+  createPageBlog(postList, currentPage, currentPage);
 
   openNewWindow();
-
+  onClickArrow(queryParams);
 };
-
-
 
 export {loadPosts};
